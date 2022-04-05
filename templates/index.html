@@ -20,7 +20,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <!-- Blog Article Start-->
+                    
+
+
+		<!--    Dynamic content Post Start   -->
+
+		{%for post in posts %}
+		<!-- Blog Article Start-->
                     <article>
                         <!-- Blog item Start -->
                         <div class="blog-item-wrap">
@@ -29,15 +35,13 @@
                                 <span><i class="fa fa-camera"></i></span>
                             </div><!-- Post Format icon End -->
                             <h2 class="blog-title"><a href=
-                            "single.html">Personal Blog and Portfolio
-                            Template</a></h2><!-- Entry Meta Start-->
+				       "{{ post.get_absolute_url }}">{{ post.title }}</a></h2><!-- Entry Meta Start-->
                             <div class="entry-meta">
                                 <span class="meta-part"><i class=
-                                "ico-user"></i> <a href="#">James
-                                Maclern</a></span> <span class=
+                                "ico-user"></i> <a href="#">{{ post.author }}</a></span> <span class=
                                 "meta-part"><i class=
                                 "ico-calendar-alt-fill"></i> <a href=
-                                "#">January 7, 2015</a></span> <span class=
+				 "#">{{ post.publish.date }}</a></span> <span class=
                                 "meta-part"><i class="ico-comments"></i>
                                 <a href="#">20</a></span> <span class=
                                 "meta-part"><i class="ico-tag"></i> <a href=
@@ -89,6 +93,17 @@
                             </div>
                         </div><!-- Blog item End -->
                     </article><!-- Blog Article End-->
+		
+		    {% endfor %}
+
+
+
+
+		<!--    Dynamic content Post End     -->
+
+
+
+
                     <!-- Blog Article Start-->
                     <article>
                         <!-- Blog item Start -->

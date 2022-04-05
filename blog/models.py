@@ -1,32 +1,49 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
+
+# Ckeditor
+# TimeZone
+# Taggit
+# Reverse
+from django.urls import reverse
 # Create your models here.
 
-STATUS = (
-    (0,"Draft"),
-    (1,"Publish")
-)
 
+# Model manager
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager,self).get_queryset().filter(status='published')
+
+
+# Post model
 class Post(models.Model):
-    title = models.CharField(max_length=300, unique=True)
-    slug = models.SlugField(max_length=300, unique=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
-    content = models.TextField()
-    status = models.IntegerField(choices=STATUS, default=0)
+    STATUS_CHOICES = (
+    ('draft',  'Draft'),
+    ('published', 'Published'),
+            )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    image = models.ImageField(upload_to = 'media')
-    tag = models.CharField(max_length=300)
-    comment = models.TextField()
-    commentCount = models.IntegerField()
-    rating = models.FloatField()
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(max_length=250, unique_for_date='publish')
+    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blog_posts')
+    body= models.TextField()
+    
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    status = models.CharField(max_length=10,choices=STATUS_CHOICES,default='draft')
 
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ('-publish',)
 
-    def __str__(self):
-        return self.title
+        def __str__(self):
+            return self.title
 
+    objects = models.Manager() # The default manager
+    published = PublishedManager() # Our custom manager
+
+
+    def get_absolute_url(self):
+        return reverse('blog:single',args=[self.slug])
