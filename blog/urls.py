@@ -12,6 +12,7 @@ urlpatterns = [
     #path('',views.blog_list,name='blog_list'),
     #path('<slug:post>/',views.blog_single,name="blog_single"),
     path('<slug:post>/',blogSingle.as_view(),name="single"),
+    path('subcategory/<slug>',SubCategoryView.as_view(),name="subcategory"),
 
 
 

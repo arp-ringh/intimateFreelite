@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -8,6 +9,26 @@ from django.contrib.auth.models import User
 # Reverse
 from django.urls import reverse
 # Create your models here.
+
+
+    
+STATUS_CAT = (('active', 'active'), ('', 'default'))
+
+class Category(models.Model):
+    name = models.CharField(max_length = 300)
+    slug = models.CharField(max_length = 300)
+    status = models.CharField(choices = STATUS_CAT, blank=True, max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Subcategory(models.Model):
+    name = models.CharField(max_length = 300)
+    slug = models.CharField(max_length = 300)
+    category = models.ForeignKey(Category, on_delete= models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 # Model manager
@@ -26,8 +47,18 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blog_posts')
-    body= models.TextField()
+       
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     
+    image = models.ImageField(upload_to='featured_image/%Y/%m/%d')
+   # excerpt = models.TextField() 
+    
+    excerpt = RichTextUploadingField()
+    #body= models.TextField()
+    #body for detail view of post
+    body= RichTextUploadingField()
+
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

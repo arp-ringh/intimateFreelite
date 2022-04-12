@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!--    Dynamic content Post Start   -->
+
+		<!-- Blog Article Start-->
+		<div class="container-fluid">
+			<div class="row">
+				
+		{%for post in subcat_posts %}
+				<div class="col-md-4">
+				<article>
+                        <!-- Blog item Start -->
+                        <div class="blog-item-wrap">
+                            <!-- Post Format icon Start -->
+                            <div class="post-format">
+                                <span><i class="fa fa-camera"></i></span>
+                            </div><!-- Post Format icon End -->
+                            <h2 class="blog-title"><a href=
+                                       "{{ post.get_absolute_url }}">{{ post.title }}</a></h2><!-- Entry Meta Start-->
+                            <div class="entry-meta">
+                                <span class="meta-part"><i class=
+                                "ico-user"></i> <a href="#">{{ post.author }}</a></span> <span class=
+                                "meta-part"><i class=
+                                "ico-calendar-alt-fill"></i> <a href=
+                                 "#">{{ post.publish.date }}</a></span> <span class=
+                                "meta-part"><i class="ico-comments"></i>
+                                <a href="#">20</a></span> <span class=
+                                "meta-part"><i class="ico-tag"></i> <a href=
+                                "#">Tech</a></span> <span class=
+                                "meta-part"><i class="ico-star"></i> <a href=
+                                "#">7.5</a></span>
+                            </div><!-- Entry Meta End-->
+                            <!-- Feature inner Start -->
+                            <div class="feature-inner">
+                                <a data-lightbox="roadtrip" href=
+                                                  "{{ post.image.url }}"><img alt="" src=
+                                                  "{{ post.image.url }}"></a>
+                            </div><!-- Feature inner End -->
+                            <!-- Post Content Start -->
+                            <div class="post-content">
+                                <!-- post body test area start -->
+                                <p>
+					<!-- post body test area end -->
+
+                           </div><!-- Post Content End -->
+                            <div class="entry-more">
+                                <div class="pull-left">
+                                    <a class="btn btn-common" href=
+                                    "{{ post.get_absolute_url }}">Read More <i class=
+                                    "ico-arrow-right"></i></a>
+                                </div>
+                                <div class="share-icon pull-right">
+                                    <span class="socialShare"></span>
+                                </div>
+                            </div>
+                        </div><!-- Blog item End -->
+                    </article><!-- Blog Article End-->
+
+				</div>
+
+		    {% endfor %}
+
+			</div>
+		</div>
+
+{% endblock %}
+
+
+
+

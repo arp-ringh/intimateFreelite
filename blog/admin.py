@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Category, Subcategory
 
 # Register your models here.
 
@@ -12,3 +12,16 @@ class PostAdmin(admin.ModelAdmin):
     raw_id_fields = ('author',)
     date_hierachy = 'publish'
     ordering = ('status', 'publish')
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
+
+@admin.register(Subcategory)
+class SubcategoryAdmin(admin.ModelAdmin):
+    list_dsiplay = ('category', 'slug')
+    list_filter = ('category',)
+    prepopulated_fields = {'slug': ('name',)}
+
+
