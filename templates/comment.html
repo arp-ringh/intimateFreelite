@@ -1,0 +1,63 @@
+{% load static %}
+
+<div id="comments">
+	<ol class="comments-list">
+
+<div class="border-0 border-start border-2 ps-2" id="{{comment.id}}">
+
+	<li>
+
+	<div class="comment-box clearfix">
+
+	<div class="avatar">
+		<a href="#"><img alt="" src="{% static  'img/blog/user2.jpg' %}">
+       	</a>
+        </div>
+
+
+	<div class="comment-content">
+	<div class="comment-meta">
+        <div class="mt-3">
+	  <h4 class= "comment-by" >
+            <strong>{{comment.name}}</strong> 
+            {% if  comment.parent.name%} to <strong>{{comment.parent.name}}</strong>{% endif %}
+            <small class="text-muted">On {{ comment.created.date }}</small>
+          </h4>
+	</div>
+        <div class="border p-2 rounded">
+            <p>{{comment.body}}</p>
+        	<a class="reply-link" onclick="handleReply({{comment.id}})">Reply</a>
+            <div id="reply-form-container-{{comment.id}}" style="display:none">
+            
+                <form method="post" action="{% url 'blog:reply' %}" class="mt-3">
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value="{{post.id}}">
+                    <input type="hidden" name="parent" value="{{comment.id}}">
+                    <input type="hidden" name="post_url" value="{{post.get_absolute_url}}">
+
+
+                    {{comment_form.as_p}}
+
+                    <div>
+                        <button type="button" onclick="handleCancel({{comment.id}})" class="btn btn-light border btn-sm">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+	</div>
+	</div>
+	</div>
+	</li>
+
+        {% for comment in comment.get_comments %}
+	<ul>
+	<li>
+            {% include 'comment.html' with comment=comment %}
+	</li>
+	</ul>
+	{% endfor %}
+</div>
+
+	</ol>
+</div>
