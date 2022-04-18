@@ -51,11 +51,13 @@
 	</li>
 
         {% for comment in comment.get_comments %}
+	<li>
 	<ul>
 	<li>
             {% include 'comment.html' with comment=comment %}
 	</li>
 	</ul>
+	</li>
 	{% endfor %}
 </div>
 
