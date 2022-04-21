@@ -274,7 +274,7 @@
                                                     <span>
 						    <i class= "ico-tag"></i>
                                                     {% for tag in post.tags.all %}
-						    {{tag.name}}</span>
+						    <a href="{% url 'blog:post_tag' tag.slug %}">{{tag.name}}</a></span>
 						    {% endfor %}
 						    </span>
                                                 </div>
@@ -296,7 +296,7 @@
 							 "{% static 'img/post/post1.jpg' %}"></a>
                                             </div>
                                             <div class="widget-content">
-						    <a href="{{post.get_absolute_url}}">
+						<a href="#">
 						{{post.title}}
 						</a>
                                                 <div class="meta">
@@ -307,7 +307,7 @@
                                                     "ico-tag"></i>
                                                     
 						{% for tag in post.tags.all %}
-                                                     {{tag.name}}</span>
+                                                     <a href="{% url 'blog:post_tag' tag.slug %}">{{tag.name}}</a></span>
                                                 {% endfor %}
 
 
@@ -333,7 +333,7 @@
 							 "{% static 'img/post/post1.jpg' %}"></a>
                                             </div>
                                             <div class="widget-content">
-						    <a href="{{post.get_absolute_url}}">
+						<a href="#">
 						{{post.title}}
 						</a>
                                                 <div class="meta">
@@ -343,8 +343,7 @@
                                                     <span><i class=
                                                     "ico-tag"></i>
 						{% for tag in post.tags.all %}
-                                                    {{tag.name}}</span>                 
-						{% endfor %}
+                                                    <a href="{% url 'blog:post_tag' tag.slug %}">{{tag.name}}</a></span>                                                     {% endfor %}
 						</span>
                                                 </div>
                                             </div>

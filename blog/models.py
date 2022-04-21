@@ -6,9 +6,11 @@ from django.contrib.auth.models import User
 # Ckeditor
 # TimeZone
 # Taggit
+from taggit.managers import TaggableManager
 # Reverse
 from django.urls import reverse
 # Create your models here.
+
 
 
     
@@ -44,13 +46,23 @@ class Post(models.Model):
     ('published', 'Published'),
             )
 
+    SECTION = (
+            ('home','Home'),
+            ('popular', 'Popular'),
+            ('recent', 'Recent'),
+            ('comment', 'Comment'),
+
+            )
+
+
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
     author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='blog_posts')
        
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
-    
+   
+    section = models.CharField(max_length=200,choices= SECTION)
     image = models.ImageField(upload_to='featured_image/%Y/%m/%d')
    # excerpt = models.TextField() 
     
@@ -58,6 +70,8 @@ class Post(models.Model):
     #body= models.TextField()
     #body for detail view of post
     body= RichTextUploadingField()
+
+    tags = TaggableManager()
 
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)

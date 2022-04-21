@@ -4,6 +4,7 @@ from .forms import CommentForm
 from django.views.generic import View
 from django.db.models import Count
 #from .models import Post
+from taggit.models import Tag
 
 
 # Create your views here.
@@ -12,10 +13,19 @@ class BaseView(View):
 
 
 class HomeView(BaseView):
-    def get(self, request):
+    def get(self, request, tag_slug=None):
         self.views['posts'] = Post.published.all()
         self.views['categories'] = Category.objects.all()
         self.views['subcategories'] = Subcategory.objects.all()
+        self.views['popular_posts']= Post.published.filter(section = 'popular')
+        self.views['home_posts'] = Post.published.filter(section = 'home')
+        self.views['recent_posts'] = Post.published.filter(section = 'recent')
+        #Retrieve posts according totags
+        tag = None
+        if tag_slug:
+            tag = get_object_or_404(Tag, slug=tag_slug)
+            self.views['posts'] = self.views['posts'].filter(tags__in=[tag])
+
         return render(request,'index.html', self.views)
 
 
@@ -75,7 +85,12 @@ class _blogSingle(BaseView):
 
 def blogSingle(request,post):
     post = get_object_or_404(Post,slug=post,status='published')
-
+    categories = Category.objects.all()
+    subcategories = Subcategory.objects.all()
+    popular_posts = Post.published.filter(section = 'popular')
+    home_posts = Post.published.filter(section = 'home')
+    recent_posts = Post.published.filter(section = 'recent')
+    
     # List of active comments for this post
     comments = post.comments.filter(active=True)
     new_comment = None
@@ -96,7 +111,25 @@ def blogSingle(request,post):
         comment_form = CommentForm()
 
 
-    return render(request, 'single.html',{'post':post,'comments': comments,'comment_form':comment_form})
+    # Similar Posts
+    tags_ids = post.tags.values_list('id', flat=True)
+    related_posts = Post.published.filter(tags__in=tags_ids).exclude(id=post.id)
+    related_posts = related_posts.annotate(same_tags=Count('tags')).order_by('-same_tags','-publish')[:6]
+
+
+    context = {
+            'post':post,
+            'comments': comments,
+            'comment_form':comment_form,
+            'related_posts':related_posts,
+            'categories':categories,
+            'subcategories':subcategories,
+            'popular_posts':popular_posts,
+            'home_posts':home_posts,
+            'recent_posts':recent_posts,
+            }
+
+    return render(request, 'single.html',context)
 
 
 # handling reply, reply view

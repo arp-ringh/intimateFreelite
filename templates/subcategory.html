@@ -5,11 +5,13 @@
 <!--    Dynamic content Post Start   -->
 
 		<!-- Blog Article Start-->
-		<div class="container-fluid">
+		<div id="content">
+		<div class="container">
 			<div class="row">
 				
-		{%for post in subcat_posts %}
-				<div class="col-md-4">
+				<div class="col-md-8">
+
+				{%for post in subcat_posts %}
 				<article>
                         <!-- Blog item Start -->
                         <div class="blog-item-wrap">
@@ -21,14 +23,20 @@
                                        "{{ post.get_absolute_url }}">{{ post.title }}</a></h2><!-- Entry Meta Start-->
                             <div class="entry-meta">
                                 <span class="meta-part"><i class=
-                                "ico-user"></i> <a href="#">{{ post.author }}</a></span> <span class=
+					     "ico-user"></i> <a href="#">{{ post.author.first_name }} {{ post.author.last_name }}</a></span> <span class=
                                 "meta-part"><i class=
                                 "ico-calendar-alt-fill"></i> <a href=
                                  "#">{{ post.publish.date }}</a></span> <span class=
                                 "meta-part"><i class="ico-comments"></i>
                                 <a href="#">20</a></span> <span class=
-                                "meta-part"><i class="ico-tag"></i> <a href=
-                                "#">Tech</a></span> <span class=
+                                "meta-part"><i class="ico-tag"></i> 
+				
+				{% for tag in post.tags.all %}
+                                <a href="{% url 'blog:post_tag' tag.slug %}">{{tag.name}}</a></span>
+                                {% endfor %}
+
+
+				<span class=
                                 "meta-part"><i class="ico-star"></i> <a href=
                                 "#">7.5</a></span>
                             </div><!-- Entry Meta End-->
@@ -58,12 +66,9 @@
                         </div><!-- Blog item End -->
                     </article><!-- Blog Article End-->
 
+		    {% endfor %}
 				</div>
 
-		    {% endfor %}
-
-			</div>
-		</div>
 
 {% endblock %}
 

@@ -15,6 +15,7 @@ urlpatterns = [
     path('subcategory/<slug>',SubCategoryView.as_view(),name="subcategory"),
     path('<slug:post>/',views.blogSingle,name="single"),
     path('comment/reply/', views.reply_page, name="reply"), 
+    path('tag/<slug:tag_slug>/',HomeView.as_view(), name='post_tag'),
 
 
 
