@@ -25,7 +25,7 @@
 
 		<!--    Dynamic content Post Start   -->
 
-		{%for post in posts %}
+		{%for post in pages %}
 		<!-- Blog Article Start-->
                     <article>
                         <!-- Blog item Start -->
@@ -41,9 +41,21 @@
                                 "ico-user"></i> <a href="#">{{ post.author.first_name }} {{ post.author.last_name }}</a></span> <span class=
                                 "meta-part"><i class=
                                 "ico-calendar-alt-fill"></i> <a href=
-				 "#">{{ post.publish.date }}</a></span> <span class=
+				 "#">{{ post.publish.date }}</a></span>
+				<span class=
                                 "meta-part"><i class="ico-comments"></i>
-                                <a href="#">20</a></span> <span class=
+                                <a href="#">
+					
+					{% with comment.count as total_comments %}
+                			{{ total_comments }}
+        				{% endwith %}
+
+
+
+				</a>
+				</span>
+		 		
+		 		<span class=
                                 "meta-part"><i class="ico-tag"></i>
 				
 				{% for tag in post.tags.all %}
@@ -113,7 +125,23 @@
                     </article><!-- Blog Article End-->
 		
 		    {% endfor %}
+		    
 
+		<!-- 
+
+		    <div>
+		    	{{ pages }}
+			<br/>
+			<span>Has Previous: {{ pages.has_previous }}</span>
+			<br/>
+			<span>Current: {{ pages.number }}</span>
+			<br/>
+			<span>Has Next: {{ pages.has_next }}</span>
+			<br/>
+			<span>Number of Pages: {{ pages.paginator.num_pages }}</span>
+		    </div>
+		-->
+		    
 		<!--    Dynamic content Post End     -->
 
 
@@ -121,8 +149,10 @@
 
                     <!-- Blog Article Start-->
                     <!-- Blog Article End-->
+
                     <!-- Post Quote Start -->
-                    <div class="post-quote text-center">
+		    <!--
+		    <div class="post-quote text-center">
                         <blockquote>
                             <div class="icon">
                                 <i class="ico-quote"></i>
@@ -132,13 +162,20 @@
                             <p class="client-name">- Steave Jobs, CEO,
                             Apple</p>
                         </blockquote>
-                    </div><!-- Post Quote End -->
-                    <!-- Blog Article Start-->
+                    </div>
+		    -->
+		    <!-- Post Quote End -->
+                    
+
+		    <!-- Blog Article Start-->
                     <!-- Blog Article End-->
                     <!-- Blog Article Start-->
                     <!-- Blog Article End-->
-                    <!-- Post Quote Start -->
-                    <div class="post-quote text-center">
+                    
+
+		    <!-- Post Quote Start -->
+                    <!-- 
+		    <div class="post-quote text-center">
                         <blockquote>
                             <div class="icon">
                                 <i class="ico-reply"></i>
@@ -147,26 +184,56 @@
                             like. Design is how it works...</p><a href=
                             "#">https://youtu.be/sPfJQmpg5zk</a>
                         </blockquote>
-                    </div><!-- Post Quote End -->
+                    </div>
+			-->
+		    <!-- Post Quote End -->
                     <!-- Blog Article Start-->
                     <!-- Blog Article End-->
                     <!-- Blog Article Start-->
+
+
+
+		    <!-- <div>
+		    {% if pages.has_previous %}
+			<a href="?page=1">&laquo First</a>
+			<a href="?page={{ pages.previous_page_number }}">Previous</a>
+
+		    {% endif %}
+			
+		    <span>Page {{ pages.number }} of {{ pages.paginator.num_pages}}</span>
+		  
+		     {% if pages.has_next %}
+		     <a href="?page={{ pages.next_page_number }}">next</a>
+		     <a href="?page={{ pages.paginator.num_pages }}">Last &raquo</a>
+
+		     {% endif %}
+
+
+		    </div> 
+		     -->
+
+
+
                     <article>
                         <!-- Pagination Start -->
                         <ul class="pager">
+			{% if pages.has_previous %}
                             <li class="previous">
-                                <a href="#"><i class="ico-arrow-left"></i>
+				<a href="?page={{ pages.previous_page_number }}"><i class="ico-arrow-left"></i>
                                 Previous</a>
                             </li>
-                            <li style="list-style: none"><span class=
-                            "active"><a href="#">1</a></span> <span><a href=
-                            "#">2</a></span> <span><a href="#">3</a></span>
-                            <span><a href="#">4</a></span> <span><a href=
-                            "#">5</a></span></li>
-                            <li class="next">
-                                <a href="#">Next <i class=
-                                "ico-arrow-right"></i></a>
+			{% endif %}
+                            <li style="list-style: none">
+				{% with pages.paginator.num_pages as total_pages %}
+				<span>Page {{ pages.number }} of {{ total_pages }}</span>
+				{% endwith %}
+			    </li>
+			    {% if pages.has_next %}
+			    <li class="next">
+				    <a href="?page={{ pages.next_page_number }}">Next <i class="ico-arrow-right"></i></a>
+
                             </li>
+			    {% endif %}
                         </ul><!-- Pagination End -->
                     </article><!-- Blog Article End-->
                 </div>

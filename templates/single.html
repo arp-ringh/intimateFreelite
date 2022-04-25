@@ -23,7 +23,11 @@
                             "meta-part"><i class="ico-calendar-alt-fill"></i>
 			    <a href="#">{{ post.publish }}</a></span> <span class=
                             "meta-part"><i class="ico-comments"></i> <a href=
-                            "#">20</a></span> <span class="meta-part"><i class=
+                            "#">
+				{% with comments.count as total_comments %}
+                		{{ total_comments }}
+        			{% endwith %}
+		    		</a></span> <span class="meta-part"><i class=
                             "ico-tag"></i> 
 				{% for tag in post.tags.all %}
                                 <a href="{% url 'blog:post_tag' tag.slug %}">{{tag.name}}</a></span>

@@ -5,7 +5,7 @@ from django.views.generic import View
 from django.db.models import Count
 #from .models import Post
 from taggit.models import Tag
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 class BaseView(View):
@@ -17,6 +17,7 @@ class HomeView(BaseView):
         self.views['posts'] = Post.published.all()
         self.views['categories'] = Category.objects.all()
         self.views['subcategories'] = Subcategory.objects.all()
+        self.views['comment'] = Comment.objects.all()
         self.views['popular_posts']= Post.published.filter(section = 'popular')
         self.views['home_posts'] = Post.published.filter(section = 'home')
         self.views['recent_posts'] = Post.published.filter(section = 'recent')
@@ -24,7 +25,14 @@ class HomeView(BaseView):
         tag = None
         if tag_slug:
             tag = get_object_or_404(Tag, slug=tag_slug)
-            self.views['posts'] = self.views['posts'].filter(tags__in=[tag])
+            paginator = Paginator(Post.published.filter(tags__in=[tag]),5) 
+ 
+        else:
+            paginator = Paginator(Post.published.all(),5) 
+        page = request.GET.get('page')
+        self.views['pages'] = paginator.get_page(page)
+
+
 
         return render(request,'index.html', self.views)
 
