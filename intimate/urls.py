@@ -22,5 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls',namespace='blog')),
     path('ckeditor/',include('ckeditor_uploader.urls')),
+    path('twitter/',include('ditto.twitter.urls')),
+    path('ditto/',include('ditto.core.urls')),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

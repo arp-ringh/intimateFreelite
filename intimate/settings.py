@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'taggit',
+    'ditto.core',
+    'ditto.twitter',
 ]
 
 MIDDLEWARE = [
@@ -199,3 +201,7 @@ CKEDITOR_CONFIGS = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Ditto Twitter Settings
+DITTO_TWITTER_DIR_BASE = 'twitter'
+DITTO_TWITTER_USE_LOCAL_MEDIA = False
