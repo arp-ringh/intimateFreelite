@@ -176,3 +176,9 @@ class SubCategoryView(BaseView):
 
 
 
+class ContactView(BaseView):
+
+    def get(self, request):
+
+
+        return render(request, 'contact.html', self.views)
