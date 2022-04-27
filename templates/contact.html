@@ -57,18 +57,26 @@
                     </div>
                 </div><!-- Contact Info End -->
                 <div class="col-md-8 col-md-offset-2 contact-form">
-                    <form class="shake" data-toggle="validator" id=
-                    "contactForm" name="contactForm" role="form">
+			<div class="">
+                 	{% for message in messages %}
+                        <center>
+                        <font>{{message}}</font>
+                        </center>
+                        {% endfor %}
+			</div>
+		   <form class="shake" data-toggle="validator" id=
+                    "contactForm-Bk" name="contactForm" role="form"  method="POST">
+			   {% csrf_token %}
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input class="form-control" data-error=
-                                "Please enter your name" id="name" placeholder=
+                                "Please enter your name" id="name" name="name" placeholder=
                                 "Your Name" required="" type="text">
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" data-error=
-                                "Please enter your email" id="email"
+                                "Please enter your email" id="email" name="email"
                                 placeholder="Your Email" required="" type=
                                 "email">
                                 <div class="help-block with-errors"></div>
@@ -76,14 +84,14 @@
                             <div class="form-group">
                                 <input class="form-control" data-error=
                                 "Please enter your message subject" id=
-                                "msg_subject" placeholder="Subject" required=""
+                                "msg_subject" name="subject" placeholder="Subject" required=""
                                 type="text">
                                 <div class="help-block with-errors"></div>
                             </div>
                             <div class="form-group">
                                 <textarea class="form-control" data-error=
-                                "Write your message" id="message" placeholder=
-                                "Massage" required="" rows="5">
+                                "Write your message" id="message" name="message" placeholder=
+                                "Message" required="" rows="5">
 </textarea>
                                 <div class="help-block with-errors"></div>
                             </div>

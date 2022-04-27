@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category, Subcategory, Comment
+from .models import Post, Category, Subcategory, Comment, Contact
 
 # Register your models here.
 
@@ -31,4 +31,9 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('name','email','post','created','active')
     list_filter = ('active','created','updated')
     search_fields = ('name', 'email', 'body')
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('name','email','subject','message')
+    list_filter = ('email',)
 

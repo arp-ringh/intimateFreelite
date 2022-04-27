@@ -6,6 +6,8 @@ from django.db.models import Count
 #from .models import Post
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.mail import EmailMessage
+from django.contrib import messages
 
 # Create your views here.
 class BaseView(View):
@@ -182,3 +184,37 @@ class ContactView(BaseView):
 
 
         return render(request, 'contact.html', self.views)
+
+
+def contact(request):
+    if request.method == "POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        subject = request.POST['subject']
+        message = request.POST['message']
+
+        data = Contact.objects.create(
+                name = name,
+                email = email,
+                subject = subject,
+                message = message,
+
+                )
+        data.save()
+        try:
+            email = EmailMessage(
+                    'Hello',
+                    'Thanks for messaging us. We will get back to you soon!',
+                    'arpringh@gmail.com',
+                    [email],
+                    )
+            email.send()
+        except:
+            pass
+        else:
+            messages.success(request,'Email has sent !')
+            return redirect('blog:contact')
+
+
+
+    return render(request,'contact.html')

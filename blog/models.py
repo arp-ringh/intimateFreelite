@@ -120,3 +120,14 @@ class Comment(models.Model):
 
     def get_comments(self):
         return Comment.objects.filter(parent=self).filter(active=True)
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length = 400)
+    email = models.EmailField(max_length = 400, blank=True)
+    subject = models.CharField(max_length = 400)
+    message = models.TextField()
+
+
+    def __str__(self):
+        return self.name
