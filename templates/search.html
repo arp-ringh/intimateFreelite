@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div id="content">
+        <div class="container">
+		{% if search_name %}
+		<h3>{{ search_name  }}</h3>
+		
+		{% for post in search_posts %}
+		<span>{{ post.title }}</span>
+		{% endfor %}
+
+		{% else %}
+		<h3>Nothing Appropriate...</h3>
+		{% endif %}
+		
+	
+	</div>
+</div>
+
+
+{% endblock %}
+

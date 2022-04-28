@@ -16,10 +16,8 @@ urlpatterns = [
     path('<slug:post>/',views.blogSingle,name="single"),
     path('comment/reply/', views.reply_page, name="reply"), 
     path('tag/<slug:tag_slug>/',HomeView.as_view(), name='post_tag'),
-    #path('contact', ContactView.as_view(), name='contact'),
-    path('contact', views.contact, name='contact'),
-
-
+    path('search', SearchView.as_view(), name='search'),
+    path('contact', views.contact, name='contact')
 
 
 

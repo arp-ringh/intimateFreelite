@@ -57,11 +57,12 @@
                 <div class="side">
                     <a class="show-search"><i class="ico-search"></i></a>
                 </div><!-- Form for navbar search area -->
-                <form class="full-search">
+                <form class="full-search" action="{% url 'blog:search' %}" method="GET" >
+			{%  csrf_token %}
                     <div class="container">
                         <div class="row">
                             <input class="form-control" placeholder="Search"
-                            type="text"> <a class="close-search"><span class=
+                           name="query" type="text"> <a class="close-search"><span class=
                             "ico-times"></span></a>
                         </div>
                     </div>
@@ -71,7 +72,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown dropdown-toggle active">
                             <a data-toggle="dropdown" href=
-                            "index.html">Home</a>
+                            "/">Home</a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="fullscreen-slider.html">Home -
@@ -82,7 +83,7 @@
                                     Carousel</a>
                                 </li>
                                 <li>
-                                    <a href="index.html">Home - Default</a>
+                                    <a href="/">Home - Default</a>
                                 </li>
                             </ul>
                         </li>
