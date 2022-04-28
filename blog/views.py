@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import CommentForm
 from django.views.generic import View
-from django.db.models import Count
+from django.db.models import Count, Q
 #from .models import Post
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -177,24 +177,6 @@ class SubCategoryView(BaseView):
         return render(request,'subcategory.html',self.views)
 
 
-'''
-class ContactView(BaseView):
-
-    def get(self, request):
-
-
-        return render(request, 'contact.html', self.views)
-'''
-
-class SearchView(BaseView):
-    def get(self,request):
-        if request.method == 'GET':
-            query = request.GET['query']
-            self.views['search_name'] = query
-            self.views['search_posts'] = Post.objects.filter(title__icontains = query)
-        return render(request,'search.html',self.views)
-
-
 def contact(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -220,4 +202,20 @@ def contact(request):
 
 
     return render(request, 'contact.html')
+
+
+
+
+
+class SearchView(BaseView):
+    def get(self,request):
+        if request.method == 'GET':
+            query = request.GET['query']
+            self.views['search_name'] = query
+            lookups = Q(title__icontains = query) | Q(excerpt__icontains = query) | Q(body__icontains = query)
+
+            self.views['search_posts'] = Post.objects.filter(lookups)
+        return render(request,'search.html',self.views)
+
+
 

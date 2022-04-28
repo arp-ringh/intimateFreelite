@@ -3,22 +3,72 @@
 {% block content %}
 
 <div id="content">
-        <div class="container">
-		{% if search_name %}
-		<h3>{{ search_name  }}</h3>
-		
+<div class="container">
+	{% if search_name %}
+	<div class="row">
+		<h2>Results for {{ search_name }}</h2>
 		{% for post in search_posts %}
-		<span>{{ post.title }}</span>
+
+		<div class="col-md-4">	
+		<article>
+                        <!-- Blog item Start -->
+                        <div class="blog-item-wrap">
+                            <!-- Post Format icon Start -->
+                            <div class="post-format">
+                                <span><i class="fa fa-camera"></i></span>
+                            </div><!-- Post Format icon End -->
+                            <h2 class="blog-title"><a href=
+                                       "{{ post.get_absolute_url }}">{{ post.title|truncatechars:18 }}</a></h2><!-- Entry Meta Start-->
+                            <div class="entry-meta">
+                                <span class="meta-part"><i class=
+					     "ico-user"></i> <a href="#">{{ post.author.first_name }} {{ post.author.last_name }}</a></span> <span class=
+                                "meta-part"><i class=
+                                "ico-calendar-alt-fill"></i> <a href=
+                                 "#">{{ post.publish.date }}</a></span> <span class=
+                                "meta-part"><i class="ico-comments"></i>
+                                <a href="#">20</a></span> <span class=
+                                "meta-part"><i class="ico-tag"></i> 
+				
+				{% for tag in post.tags.all %}
+                                <a href="{% url 'blog:post_tag' tag.slug %}">{{tag.name}}</a></span>
+                                {% endfor %}
+
+
+				
+                            </div><!-- Entry Meta End-->
+                            <!-- Feature inner Start -->
+                            <div class="feature-inner">
+                                <a data-lightbox="roadtrip" href=
+                                                  "{{ post.image.url }}"><img alt="" src=
+                                                  "{{ post.image.url }}"></a>
+                            </div><!-- Feature inner End -->
+                            <!-- Post Content Start -->
+                            <div class="post-content">
+                                <!-- post body test area start -->
+                                <p>
+					<!-- post body test area end -->
+
+                           </div><!-- Post Content End -->
+                            <div class="entry-more">
+                                <div class="pull-left">
+                                    <a class="btn btn-common" href=
+                                    "{{ post.get_absolute_url }}">Read More <i class=
+                                    "ico-arrow-right"></i></a>
+                                </div>
+                                <div class="share-icon pull-right">
+                                    <span class="socialShare"></span>
+                                </div>
+                            </div>
+                        </div><!-- Blog item End -->
+                    </article><!-- Blog Article End-->
+		</div>
 		{% endfor %}
-
-		{% else %}
-		<h3>Nothing Appropriate...</h3>
-		{% endif %}
-		
-	
 	</div>
+	{% else %}
+	<div><h3>Nothing Appropriate...</h3></div>
+	{% endif %}
 </div>
-
+</div>
 
 {% endblock %}
 
