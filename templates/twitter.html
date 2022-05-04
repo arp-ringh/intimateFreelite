@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>Twitter</title>
+	</head>
+	<body>
+	<p>Twitter is fun</p>
+	<div>
+
+		{% for tweet in tweets %}
+    		<p>
+        		<b>{{ from_usertweet.user.name }} (@{{ tweet.user.screen_name }})</b><br>
+        			{{ tweet.text_html|safe }}
+    		</p>
+		{% endfor %}
+
+
+		<p>{{ user.screen_name }}</p>
+
+		{% for tweet in public_tweets %}
+   		
+		{{ tweet.text }}
+		{{ tweet.created_at }}
+		{% endfor %}
+		<div>
+
+		<div>
+		<p>The id is : {{ user.name }}</p>
+		</div>
+		<div>
+		{{ user.profile_image_url_https }}
+		<img src="{{ user.profile_image_url_https }}"/>
+		</div>
+
+
+		</div>
+
+	</div>
+
+	</body>
+
+</html>

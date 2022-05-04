@@ -230,74 +230,27 @@
                             <h5 class="widget-title">Latest Tweets</h5>
                             <div class="latest-tweets">
                                 <ul class="posts-list">
+				{% for tweet in public_tweets	%}
+
                                     <li>
                                         <div class="icon">
-                                            <a href="#"><i class=
+                                            <a href="{{user.profile_image_url}}"><i class=
                                             "ico-twitter-with-circle"></i></a>
                                         </div>
                                         <div class="tweets-content">
-                                            <a href="#">IntimateBlog
-                                            <span>@intimateblog</span></a>
+						<a href="#">{{ user.name }}
+						    <span>@{{ user.screen_name }}</span></a>
                                             <p class="details">
-                                            <span>@Noah</span> We built with
-                                            the most amusing digital ecommerce
-                                            widget WooCommerce most amusing
-                                            digital.</p>
-                                            <p class="ago">18 Days Ago</p>
+                                            {{ tweet.text }}</p>
+                                            <p class="ago">{{ tweet.created_at }}</p>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="icon">
-                                            <a href="#"><i class=
-                                            "ico-twitter-with-circle"></i></a>
-                                        </div>
-                                        <div class="tweets-content">
-                                            <a href="#">IntimateBlog
-                                            <span>@intimateblog</span></a>
-                                            <p class="details">
-                                            <span>@Noah</span> We built with
-                                            the most amusing digital ecommerce
-                                            widget WooCommerce most amusing
-                                            digital.</p>
-                                            <p class="ago">18 Days Ago</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="icon">
-                                            <a href="#"><i class=
-                                            "ico-twitter-with-circle"></i></a>
-                                        </div>
-                                        <div class="tweets-content">
-                                            <a href="#">IntimateBlog
-                                            <span>@intimateblog</span></a>
-                                            <p class="details">
-                                            <span>@Noah</span> We built with
-                                            the most amusing digital ecommerce
-                                            widget WooCommerce most amusing
-                                            digital.</p>
-                                            <p class="ago">18 Days Ago</p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="icon">
-                                            <a href="#"><i class=
-                                            "ico-twitter-with-circle"></i></a>
-                                        </div>
-                                        <div class="tweets-content">
-                                            <a href="#">IntimateBlog
-                                            <span>@intimateblog</span></a>
-                                            <p class="details">
-                                            <span>@Noah</span> We built with
-                                            the most amusing digital ecommerce
-                                            widget WooCommerce most amusing
-                                            digital.</p>
-                                            <p class="ago">18 Days Ago</p>
-                                        </div>
-                                    </li>
+
+				 {% endfor %}
                                 </ul>
                                 <div class="follow">
                                     <h4>Follow Us <a href=
-                                    "#">@intimateblog</a></h4>
+				    "{{user.profile_image_url}}">@{{ user.screen_name }}</a></h4>
                                 </div>
                             </div>
                         </div>

@@ -17,8 +17,8 @@ urlpatterns = [
     path('comment/reply/', views.reply_page, name="reply"), 
     path('tag/<slug:tag_slug>/',HomeView.as_view(), name='post_tag'),
     path('search', SearchView.as_view(), name='search'),
-    path('contact', views.contact, name='contact')
-
+    path('contact', views.contact, name='contact'),
+    path('twitter', ditto.as_view(), name='twitter'),
 
 
         ]

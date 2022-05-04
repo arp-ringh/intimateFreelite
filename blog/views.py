@@ -34,6 +34,26 @@ class HomeView(BaseView):
         page = request.GET.get('page')
         self.views['pages'] = paginator.get_page(page)
 
+       
+
+
+
+        # tweepy
+        user = User.objects.get(screen_name='ArpRingh')
+        self.views['tweets'] = Tweet.public_tweet_objects.filter(user=user)
+
+
+        auth = tweepy.OAuth1UserHandler('nmIQy6tzAsv3frSvFrB2O4u79',
+                                        'sU6HIeOzDAtW95gIdtBsaXF7jIxy4BLSk0iKfiSlMDogISrHI6',
+                                        '1518565332369436672-495NUdkYYCb7M798spd7AYyt7eDWrL',
+                                        'iX41RQes5CWmIjZgOB2eH1XHCZ1FmTDdB0BOeOdhzJFIj'
+                                        )
+        api = tweepy.API(auth)
+
+        self.views['user'] = api.get_user(screen_name='ArpRingh')
+        self.views['public_tweets'] = api.home_timeline()
+        # tweepy
+
 
 
         return render(request,'index.html', self.views)
@@ -217,5 +237,30 @@ class SearchView(BaseView):
             self.views['search_posts'] = Post.objects.filter(lookups)
         return render(request,'search.html',self.views)
 
+
+
+from ditto.twitter.models import User, Tweet
+import tweepy
+
+
+
+class ditto(BaseView):
+    def get(self,request):
+        user = User.objects.get(screen_name='ArpRingh')
+        self.views['tweets'] = Tweet.public_tweet_objects.filter(user=user)
+        
+
+        auth = tweepy.OAuth1UserHandler('nmIQy6tzAsv3frSvFrB2O4u79',
+                                        'sU6HIeOzDAtW95gIdtBsaXF7jIxy4BLSk0iKfiSlMDogISrHI6',
+                                        '1518565332369436672-495NUdkYYCb7M798spd7AYyt7eDWrL',
+                                        'iX41RQes5CWmIjZgOB2eH1XHCZ1FmTDdB0BOeOdhzJFIj'
+                                        )
+        api = tweepy.API(auth)
+
+        self.views['user'] = api.get_user(screen_name='ArpRingh')
+        self.views['public_tweets'] = api.home_timeline()
+        
+
+        return render(request,'twitter.html',self.views)
 
 
