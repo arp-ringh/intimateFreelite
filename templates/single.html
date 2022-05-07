@@ -96,8 +96,9 @@
                     <article>
                         <!-- Start Respond Form -->
                         <div id="respond">
-                            <h2 class="respond-title">Add Comment</h2>
-                            <form method="POST" action="">
+				{% if user.is_authenticated %}
+				<h2 class="respond-title">Add Comment</h2>
+			    <form method="POST" action="">
                                	{% csrf_token %}
 				{{ comment_form.as_p }}
                                 <div class="row">
@@ -108,6 +109,9 @@
                                     </div>
                                 </div>
                             </form>
+			    {% else %}
+			    <a href="{% url 'login' %}?next={{request.path}}"><h2 class="respond-title">Log In to Comment</h2></a>
+			   {% endif %}
                         </div><!-- End Respond Form -->
                     </article><!-- Blog Article End -->
        		

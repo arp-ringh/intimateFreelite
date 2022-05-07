@@ -26,7 +26,11 @@
 	</div>
         <div class="border p-2 rounded">
             <p>{{comment.body}}</p>
+	     {% if user.is_authenticated %}
         	<a class="reply-link" onclick="handleReply({{comment.id}})">Reply</a>
+	     {% else%}
+		<a href="{% url 'login' %}"><h2 class="respond-title">Log In to Reply</h2></a>
+	     {% endif  %}
             <div id="reply-form-container-{{comment.id}}" style="display:none">
             
                 <form method="post" action="{% url 'blog:reply' %}" class="mt-3">

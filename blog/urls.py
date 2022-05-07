@@ -19,6 +19,7 @@ urlpatterns = [
     path('search', SearchView.as_view(), name='search'),
     path('contact', views.contact, name='contact'),
     path('twitter', ditto.as_view(), name='twitter'),
+    path('login', LoginView.as_view(), name= 'login'),
 
 
         ]

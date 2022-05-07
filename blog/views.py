@@ -39,9 +39,10 @@ class HomeView(BaseView):
 
 
         # tweepy
-        user = User.objects.get(screen_name='ArpRingh')
-        self.views['tweets'] = Tweet.public_tweet_objects.filter(user=user)
-
+        users = User.objects.get(screen_name='ArpRingh')
+        self.views['tweets'] = Tweet.public_tweet_objects.filter(user=users)
+        # user was changed to users as there was conflict bulit in user
+        # with django authenctication while user was passed as context
 
         auth = tweepy.OAuth1UserHandler('nmIQy6tzAsv3frSvFrB2O4u79',
                                         'sU6HIeOzDAtW95gIdtBsaXF7jIxy4BLSk0iKfiSlMDogISrHI6',
@@ -50,7 +51,7 @@ class HomeView(BaseView):
                                         )
         api = tweepy.API(auth)
 
-        self.views['user'] = api.get_user(screen_name='ArpRingh')
+        self.views['users'] = api.get_user(screen_name='ArpRingh')
         self.views['public_tweets'] = api.home_timeline()
         # tweepy
 
@@ -145,6 +146,25 @@ def blogSingle(request,post):
     tags_ids = post.tags.values_list('id', flat=True)
     related_posts = Post.published.filter(tags__in=tags_ids).exclude(id=post.id)
     related_posts = related_posts.annotate(same_tags=Count('tags')).order_by('-same_tags','-publish')[:6]
+    
+
+    # tweepy
+    users = User.objects.get(screen_name='ArpRingh')
+    tweets = Tweet.public_tweet_objects.filter(user=users)
+    # user was changed to users as there was conflict bulit in user
+    # with django authenctication while user was passed as context
+
+    auth = tweepy.OAuth1UserHandler('nmIQy6tzAsv3frSvFrB2O4u79',
+                                    'sU6HIeOzDAtW95gIdtBsaXF7jIxy4BLSk0iKfiSlMDogISrHI6',
+                                    '1518565332369436672-495NUdkYYCb7M798spd7AYyt7eDWrL',
+                                    'iX41RQes5CWmIjZgOB2eH1XHCZ1FmTDdB0BOeOdhzJFIj'
+                                    )
+    api = tweepy.API(auth)
+
+    users = api.get_user(screen_name='ArpRingh')
+    public_tweets= api.home_timeline()
+    # tweepy
+
 
 
     context = {
@@ -157,6 +177,8 @@ def blogSingle(request,post):
             'popular_posts':popular_posts,
             'home_posts':home_posts,
             'recent_posts':recent_posts,
+            'users':users,
+            'public_tweets':public_tweets,
             }
 
     return render(request, 'single.html',context)
@@ -246,8 +268,8 @@ import tweepy
 
 class ditto(BaseView):
     def get(self,request):
-        user = User.objects.get(screen_name='ArpRingh')
-        self.views['tweets'] = Tweet.public_tweet_objects.filter(user=user)
+        users = User.objects.get(screen_name='ArpRingh')
+        self.views['tweets'] = Tweet.public_tweet_objects.filter(user=users)
         
 
         auth = tweepy.OAuth1UserHandler('nmIQy6tzAsv3frSvFrB2O4u79',
@@ -257,10 +279,15 @@ class ditto(BaseView):
                                         )
         api = tweepy.API(auth)
 
-        self.views['user'] = api.get_user(screen_name='ArpRingh')
+        self.views['users'] = api.get_user(screen_name='ArpRingh')
         self.views['public_tweets'] = api.home_timeline()
         
 
         return render(request,'twitter.html',self.views)
 
 
+
+
+class LoginView(BaseView):
+     def get(self, request):
+         return render(request, 'login.html', self.views)
