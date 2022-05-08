@@ -2,13 +2,12 @@ from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils import timezone
 from django.contrib.auth.models import User
-
+from taggit.managers import TaggableManager
+from django.urls import reverse
 # Ckeditor
 # TimeZone
 # Taggit
-from taggit.managers import TaggableManager
 # Reverse
-from django.urls import reverse
 # Create your models here.
 
 
@@ -95,8 +94,6 @@ class Post(models.Model):
 
     def get_comments(self):
         return self.comments.filter(parent=None).filter(active=True)
-
-
 
 
 

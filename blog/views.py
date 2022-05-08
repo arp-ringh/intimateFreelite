@@ -3,7 +3,6 @@ from .models import *
 from .forms import CommentForm
 from django.views.generic import View
 from django.db.models import Count, Q
-#from .models import Post
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import EmailMessage
@@ -37,10 +36,6 @@ class HomeView(BaseView):
         page = request.GET.get('page')
         self.views['pages'] = paginator.get_page(page)
 
-       
-
-
-
         # tweepy
         users = User.objects.get(screen_name='ArpRingh')
         self.views['tweets'] = Tweet.public_tweet_objects.filter(user=users)
@@ -59,61 +54,7 @@ class HomeView(BaseView):
         # tweepy
 
 
-
         return render(request,'index.html', self.views)
-
-
-#def blog_list(request):
-#    #posts = Post.objects.filter(status="published")
-#    posts = Post.published.all()
-#    return render(request, 'index.html', {'posts':posts})
-
-
-#def blog_single(request, post):
-#    post=get_object_or_404(Post, slug=post,status='published')
-#    return render(request, 'single.html', {'post':post})
-
-
-#def blogSingle(BaseView, post):
-#    def get(self,request):
-#        self.views['post'] = get_object_or_404(Post, slug=post, status='published')
-#        return render(request, 'single.html', self.views)
-
-#class blogSingle(BaseView):
-#    def get(self,request,post):
-#        self.views['post'] = get_object_or_404(Post, slug=post, status='published')
-#        # List of active comments for this post
-#        self.views['comments'] = self.views['post'].comments.filter(active=True)
-#        self.views['comment_form'] = CommentForm()
-#        return render(request, 'single.html', self.views)
-#
-
-# blogSingle named to _blogSingle as its not working to CBD
-class _blogSingle(BaseView):
-    def get(self,request,post):
-        self.views['post'] = get_object_or_404(Post, slug=post, status='published')
-        # List of active comments for this post
-        self.views['comments'] = self.views['post'].comments.filter(active=True)
-        #self.views['comment_form'] = CommentForm()
-        
-        self.views['new_comment'] = None
-
-        if self.request.method == 'POST':
-            # A comment was posted
-            self.views['comment_form'] = CommentForm(data=request.POST)
-            if self.views['comment_form'].is_valid():
-                # Create Comment object but don't save to database yet
-                self.views['new_comment'] = self.views['comment_form'].save(commit = False)
-                # Assign the current post to the comment
-                self.views['new_comment'].self.views['post'] = self.views['post']
-                # Save the comment post to the comment
-                self.views['new_comment'].save()
-                # redirect to same page and focus on that comment
-                return redirect(self.views['post'].get_absolute_url()+'#'+str(self.views['new_comment'].id))
-        else:
-            self.views['comment_form'] = CommentForm()
-
-        return render(request, 'single.html', self.views)
 
 
 
@@ -169,8 +110,6 @@ def blogSingle(request,post):
     users = api.get_user(screen_name='ArpRingh')
     public_tweets= api.home_timeline()
     # tweepy
-
-
 
     context = {
             'post':post,
@@ -240,13 +179,7 @@ def contact(request):
         return redirect('blog:contact')
 
 
-
-
-
-
     return render(request, 'contact.html')
-
-
 
 
 
@@ -263,8 +196,6 @@ class SearchView(BaseView):
 
 
 from ditto.twitter.models import User, Tweet
-
-
 # just for testing tweepy package
 class ditto(BaseView):
     def get(self,request):
