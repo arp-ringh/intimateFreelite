@@ -7,7 +7,10 @@ from django.db.models import Count, Q
 from taggit.models import Tag
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import EmailMessage
+from django.contrib.auth.models import User as coreUser
+# User imported as coreUser as username of tweepy conflicted with django User
 from django.contrib import messages
+import tweepy
 
 # Create your views here.
 class BaseView(View):
@@ -150,6 +153,8 @@ def blogSingle(request,post):
 
     # tweepy
     users = User.objects.get(screen_name='ArpRingh')
+    # above User is not django User perhaps belonging to tweepy
+    # also django User needed to be imported as coreUser due to this reason
     tweets = Tweet.public_tweet_objects.filter(user=users)
     # user was changed to users as there was conflict bulit in user
     # with django authenctication while user was passed as context
@@ -206,10 +211,6 @@ def reply_page(request):
 
 
 
-
-
-
-
 class SubCategoryView(BaseView):
     def get(self,request,slug):
         subcat = Subcategory.objects.get(slug = slug).id
@@ -262,10 +263,9 @@ class SearchView(BaseView):
 
 
 from ditto.twitter.models import User, Tweet
-import tweepy
 
 
-
+# just for testing tweepy package
 class ditto(BaseView):
     def get(self,request):
         users = User.objects.get(screen_name='ArpRingh')
@@ -291,3 +291,31 @@ class ditto(BaseView):
 class LoginView(BaseView):
      def get(self, request):
          return render(request, 'login.html', self.views)
+
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        cpassword = request.POST['cpassword']
+        if password == cpassword: 
+            if coreUser.objects.filter(username = username).exists():
+                messages.error(request,"The username is already in use.")
+                return redirect('blog:register')
+            elif coreUser.objects.filter(email = email).exists():
+                messages.error(request, "The email is already in use.")
+                return redirect('blog:register')
+            else:
+                user = coreUser.objects.create_user(
+                    username= username,
+                    email = email,
+                    password = password
+                        )
+                user.save()
+                return redirect('/')
+        else:
+            messages.error(request,"The password doesn't match.")
+            return redirect('blog:register')
+
+    return render(request,'register.html')

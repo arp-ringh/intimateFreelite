@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<!--banner-->
+
+<link href="{% static 'css/login.css' %}" madia="screen" rel="stylesheet" type="text/css">
+<!--login-->
+<div class="container">
+    <div class="row">
+	<div class="col-md-12">
+
+	<div class="login">
+		<div class="main-agileits">
+				<div class="form-w3agile form1">
+					<h3>Register</h3>
+						{% for message in messages %}
+							<center>
+								<font>{{message}}</font>
+							</center>
+						{% endfor %}
+
+					<form role="form" method="POST">
+						{% csrf_token %}
+						<div class="key form-control">
+						<i class="fa fa-user" aria-hidden="true"></i>
+						<input  type="text" name="username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}" required="">
+							<div class="clearfix"></div>
+						</div>
+						<div class="key form-control">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+							<input  type="email" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+							<div class="clearfix"></div>
+						</div>
+						<div class="key form-control">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+							<input  type="password"  name="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}" required="">
+							<div class="clearfix"></div>
+						</div>
+						<div class="key form-control">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+							<input  type="password"  name="cpassword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Confirm Password';}" required="">
+							<div class="clearfix"></div>
+						</div>
+						<input type="submit" >
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	
+
+	</div>
+    		</div>
+			</div>
+<!--footer-->
+{% endblock %}

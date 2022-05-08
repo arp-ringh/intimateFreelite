@@ -20,6 +20,6 @@ urlpatterns = [
     path('contact', views.contact, name='contact'),
     path('twitter', ditto.as_view(), name='twitter'),
     path('login', LoginView.as_view(), name= 'login'),
-
+    path('register',register,name='register'),
 
         ]
