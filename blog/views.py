@@ -170,13 +170,13 @@ def contact(request):
         data.save()
 
     try:
-        email = EmailMessage('Hello', 'Thanks! For Messaging Us, We will get back to you soon.', 'arpringh@gmail.com', [email])
+        email = EmailMessage('Hello', 'Thanks! For Messaging Us, We will get back to you soon.', 'arpringh@zohomail.com', [email])
         email.send()
     except:
         pass
     else:
         messages.success(request,'Email has sent !')
-        return redirect('blog:contact')
+        return redirect('blog:blog')
 
 
     return render(request, 'contact.html')
