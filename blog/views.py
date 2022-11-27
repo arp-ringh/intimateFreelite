@@ -29,10 +29,10 @@ class HomeView(BaseView):
         tag = None
         if tag_slug:
             tag = get_object_or_404(Tag, slug=tag_slug)
-            paginator = Paginator(Post.published.filter(tags__in=[tag]),5) 
- 
+            paginator = Paginator(Post.published.filter(tags__in=[tag]),5)
+
         else:
-            paginator = Paginator(Post.published.all(),5) 
+            paginator = Paginator(Post.published.all(),5)
         page = request.GET.get('page')
         self.views['pages'] = paginator.get_page(page)
 
@@ -65,7 +65,7 @@ def blogSingle(request,post):
     popular_posts = Post.published.filter(section = 'popular')
     home_posts = Post.published.filter(section = 'home')
     recent_posts = Post.published.filter(section = 'recent')
-    
+
     # List of active comments for this post
     comments = post.comments.filter(active=True)
     new_comment = None
@@ -90,7 +90,7 @@ def blogSingle(request,post):
     tags_ids = post.tags.values_list('id', flat=True)
     related_posts = Post.published.filter(tags__in=tags_ids).exclude(id=post.id)
     related_posts = related_posts.annotate(same_tags=Count('tags')).order_by('-same_tags','-publish')[:6]
-    
+
 
     # tweepy
     users = User.objects.get(screen_name='ArpRingh')
@@ -201,7 +201,7 @@ class ditto(BaseView):
     def get(self,request):
         users = User.objects.get(screen_name='ArpRingh')
         self.views['tweets'] = Tweet.public_tweet_objects.filter(user=users)
-        
+
 
         auth = tweepy.OAuth1UserHandler('nmIQy6tzAsv3frSvFrB2O4u79',
                                         'sU6HIeOzDAtW95gIdtBsaXF7jIxy4BLSk0iKfiSlMDogISrHI6',
@@ -212,7 +212,7 @@ class ditto(BaseView):
 
         self.views['users'] = api.get_user(screen_name='ArpRingh')
         self.views['public_tweets'] = api.home_timeline()
-        
+
 
         return render(request,'twitter.html',self.views)
 
@@ -230,7 +230,7 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         cpassword = request.POST['cpassword']
-        if password == cpassword: 
+        if password == cpassword:
             if coreUser.objects.filter(username = username).exists():
                 messages.error(request,"The username is already in use.")
                 return redirect('blog:register')
