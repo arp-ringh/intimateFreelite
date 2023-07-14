@@ -42,10 +42,18 @@ class HomeView(BaseView):
         # user was changed to users as there was conflict bulit in user
         # with django authenctication while user was passed as context
 
-        auth = tweepy.OAuth1UserHandler('nmIQy6tzAsv3frSvFrB2O4u79',
-                                        'sU6HIeOzDAtW95gIdtBsaXF7jIxy4BLSk0iKfiSlMDogISrHI6',
-                                        '1518565332369436672-495NUdkYYCb7M798spd7AYyt7eDWrL',
-                                        'iX41RQes5CWmIjZgOB2eH1XHCZ1FmTDdB0BOeOdhzJFIj'
+        #old twitter api
+        # auth = tweepy.OAuth1UserHandler('nmIQy6tzAsv3frSvFrB2O4u79',
+        #                                 'sU6HIeOzDAtW95gIdtBsaXF7jIxy4BLSk0iKfiSlMDogISrHI6',
+        #                                 '1518565332369436672-495NUdkYYCb7M798spd7AYyt7eDWrL',
+        #                                 'iX41RQes5CWmIjZgOB2eH1XHCZ1FmTDdB0BOeOdhzJFIj'
+        #                                 )
+
+        #new twitter api
+        auth = tweepy.OAuth1UserHandler('JoKQ8UwjGcr1YJnA9CCIPOAGc',
+                                        'CZ2MWJmlUFummyDmJ43Je8DN4KsUd6ctfx0fnvJNUxbKLkHOKW',
+                                        '1518565332369436672-hxB7paOgsgS8OgEPBbJpmZiEKDwceh',
+                                        '9LXeD0YHbuPn4NCNn0jk1PYISt0iXCqCjkWAkskNBDjWc'
                                         )
         api = tweepy.API(auth)
 
