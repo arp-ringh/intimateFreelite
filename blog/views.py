@@ -57,8 +57,8 @@ class HomeView(BaseView):
                                         )
         api = tweepy.API(auth)
 
-        self.views['users'] = api.get_user(screen_name='ArpRingh')
-        self.views['public_tweets'] = api.home_timeline()
+        # self.views['users'] = api.get_user(screen_name='ArpRingh')
+        # self.views['public_tweets'] = api.home_timeline()
         # tweepy
 
 
